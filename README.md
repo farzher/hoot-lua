@@ -78,7 +78,7 @@ end
 ![](https://raw.github.com/farzher/hoot-lua/master/wakeup.gif)
 
 
-Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump off instead of fall off
+Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump away instead of fall off
 ```lua
 if self.inputs.dir == self.x_normal then
   -- We're trying to leave; start counter to allow us to leave

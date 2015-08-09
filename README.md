@@ -101,7 +101,9 @@ end
 
 Set a new timer that will trigger after `frames` frames.
 
-`f` can be a `function` or `string` of a function name on `self`. If it exists it'll be called with `self` as the first argument.
+`f` can be a `function` or `string` of a function name on `self`. If it exists it'll be called with `self` as the first argument when `frames` counts down to `0`.
+
+You can also set `f` to a string that doesn't exist as a function; to use the timer as a boolean variable like I do in the wall jump example. `stuck_on_wall` isn't a function
 
 
 

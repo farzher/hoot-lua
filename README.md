@@ -81,29 +81,37 @@ end
 
 ##Documentation (it's not much)
 
-###`fme(self):set(func, frames, options)`
+###`fme(self):set(f, frames, options)`
 
 Set a new timer that will trigger after `frames` frames.
 
-`func` can be a `function` or `string` of a function name on `self`. If it exists it'll be called with `self` as the first argument.
+`f` can be a `function` or `string` of a function name on `self`. If it exists it'll be called with `self` as the first argument.
 
 
 
 ###`fme(self):get(key)`
+Returns timer info if currently running, else `nil`
 
-Returns timer info if it exists, else `nil`
-
-Timer info looks like this `{frames=16, f='mycallback'}`
+Timer info looks like this `{frames=16, f='mycallback'}`. `frames` is the frames left
 
 
 ###`fme(self):clear(key)`
 Clear the timer. It'll never trigger
 
-
 ###`fme(self):destroy()`
 Cleanup all `fme` memory associated with `self`
 
+###`fme(self):update()`
+Put this in `self`'s update. Otherwise nothing will happen
 
 
 
+##Other Tips
+- `fme` does not store anything on your table, it's left completely untouched.
+- Each timer has a `key`, which is set to `f` if it's a string, or `options.key`
 
+  If you call `set` and the `key` already exists, the default behavior is to clear the old timer and replace it.
+
+  You can change this behavior by setting `options.ifexists="noop"` which will instead leave the old timer alone and not set the new one
+
+  Or you can set the `key` to `nil`, which will always stack more timers

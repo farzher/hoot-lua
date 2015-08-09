@@ -9,16 +9,12 @@ local methods = {}
 function methods:set(f, frames, options)
   local key
 
-  -- If f is string, use default key to f
-    if type(f)=='string' then
-      key = f
-    end
+  -- If f is string, default key to f
+    if type(f)=='string' then key = f end
 
   -- options
     if options then
-      if options.key~=nil then
-        key = options.key
-      end
+      if options.key~=nil then key = options.key end
 
       if options.ifexists=='noop' then
         if self.timers[key] and self.timers[key].frames>0 then return end

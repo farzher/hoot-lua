@@ -103,7 +103,7 @@ Set a new timer that will trigger after `delay` seconds.
 
 `f` can be a `function` or `string` of a function name on `self`. If it exists it'll be called with `self` as the first argument when `delay` counts down to `0`.
 
-You can also set `f` to a string that doesn't exist as a function, to use the timer as a boolean variable like I do in the wall jump example. `stuck_on_wall` isn't a function
+You can also set `f` to a string that doesn't exist as a function, to use the timer as a boolean variable like in the wall jump example. `stuck_on_wall` isn't a function
 
 
 

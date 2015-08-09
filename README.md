@@ -78,6 +78,22 @@ end
 ![](https://raw.github.com/farzher/fme-lua/master/wakeup.gif)
 
 
+Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump off instead of fall off
+```lua
+if self.inputs.dir == self.x_normal then
+	-- We're trying to leave; start counter to allow us to leave
+		if fme(self):get('stuck_on_wall') then fme(self):set('stuck_on_wall', 10, {ifexists='noop'}) end
+else
+	-- Keep us stuck
+		fme(self):set('stuck_on_wall', -1)
+end
+
+if not fme(self):get('stuck_on_wall') then
+  -- TODO: Accept inputs to move off the wall
+end
+```
+![](https://raw.github.com/farzher/fme-lua/master/wallstick.gif)
+
 
 ##Documentation (it's not much)
 

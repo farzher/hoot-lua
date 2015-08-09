@@ -108,7 +108,7 @@ You can also set `f` to a string that doesn't exist as a function, to use the ti
 
 
 ###`hoot(self):get(key)`
-Returns timer info if currently running, else `nil`
+Returns timer info if currently exists, else `nil`
 
 Timer info looks like this `{delay=0.8, f='mycallback'}`. `delay` is the seconds left until it triggers
 
@@ -132,4 +132,4 @@ Don't forget to put this in `love.update`. Otherwise nothing will happen!
 
   You can change this behavior by setting `options.ifactive="nop"` which will instead leave the old timer alone and not set the new one
 
-  Or you can leave `key` as `nil`, which will always stack more timers (You'll need to provide `f` as a `function` instead of `string`)
+  Or you can leave `key` empty, which will always stack more timers. `options.key=false` can be used to clear the key

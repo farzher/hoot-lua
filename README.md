@@ -81,7 +81,7 @@ end
 Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump away instead of fall off
 ```lua
 if self.inputs.dir == self.x_normal then
-  -- We're trying to leave; start counter to allow us to leave
+  -- We're trying to leave; start timer to allow us to leave
     if hoot(self):get('stuck_on_wall') then hoot(self):set('stuck_on_wall', 1/6, {ifactive='nop'}) end
 else
   -- Keep us stuck

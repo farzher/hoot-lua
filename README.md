@@ -114,4 +114,4 @@ Put this in `self`'s update. Otherwise nothing will happen
 
   You can change this behavior by setting `options.ifexists="noop"` which will instead leave the old timer alone and not set the new one
 
-  Or you can set the `key` to `nil`, which will always stack more timers
+  Or you can leave `key` as `nil`, which will always stack more timers (You'll need to provide `f` as a `function` instead of `string`)

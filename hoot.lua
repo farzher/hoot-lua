@@ -16,7 +16,7 @@ function methods:set(f, delay, options)
     if options then
       if options.key~=nil then key = options.key end
 
-      if options.ifexists=='nop' then
+      if options.ifactive=='nop' then
         if self.timers[key] and self.timers[key].delay>0 then return end
       end
     end

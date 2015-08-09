@@ -1,12 +1,10 @@
 #[fme.lua](https://raw.github.com/farzher/fme-lua/master/fme.lua) (FraME timer)
-
 A better way to deal with frame based timer events. Intended for [LÖVE](https://love2d.org/)
 
 
 ##What? Why?
 
 To cleanup this type of code
-
 ```lua
 self.wakeup_timer = 0
 self.is_down = false
@@ -29,7 +27,6 @@ end
 ```
 
 And replace it with this type of code
-
 ```lua
 function Enemy:knockdown()
   fme(self):set('is_down', 60)
@@ -45,7 +42,6 @@ end
 
 
 ##Installation
-
 ```lua
 fme = require 'fme'
 ```
@@ -55,7 +51,6 @@ fme = require 'fme'
 
 
 Set the lifespan of this object to 5 seconds
-
 ```lua
 function Bullet:destroy()
   -- TODO: Remove object from game
@@ -64,9 +59,7 @@ fme(self):set('destroy', 60*5)
 ```
 
 
-When hit, toggle being flipped on our side
-If flipped for 2 seconds, automatically jump back up
-
+When hit, toggle being flipped on our side. If flipped for 2 seconds, automatically jump back up
 ```lua
 function Creep:hit()
   self.is_flipped = not self.is_flipped
@@ -82,7 +75,6 @@ function Creep:hit()
     self.body:setLinearVelocity(self.vx, self.vy)
 end
 ```
-
 ![](https://raw.github.com/farzher/fme-lua/master/wakeup.gif)
 
 
@@ -105,11 +97,10 @@ Timer info looks like this `{frames=16, f='mycallback'}`
 
 
 ###`fme(self):clear(key)`
-
 Clear the timer. It'll never trigger
 
-###`fme(self):destroy()`
 
+###`fme(self):destroy()`
 Cleanup all `fme` memory associated with `self`
 
 

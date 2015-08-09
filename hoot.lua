@@ -32,22 +32,6 @@ end
 function methods:get(key) return self.timers[key] end
 function methods:clear(key) self.timers[key] = nil end
 function methods:destroy() t_timers[self.t] = nil instances[self.t] = nil end
-function methods:update(dt)
-  for key, timer in pairs(self.timers) do
-    if timer.delay>0 then
-      timer.delay = timer.delay - dt
-      if timer.delay<=0 then
-        if type(timer.f)=='string' then
-          if self.t[timer.f] then self.t[timer.f](self.t) end
-        else
-          timer.f(self.t)
-        end
-
-        self.timers[key] = nil
-      end
-    end
-  end
-end
 
 local hoot = {}
 setmetatable(hoot, {
@@ -62,7 +46,22 @@ setmetatable(hoot, {
   end;
 })
 function hoot.update(dt)
-  for _, instance in pairs(instances) do instance:update(dt) end
+  for _, instance in pairs(instances) do
+    for key, timer in pairs(instance.timers) do
+      if timer.delay>0 then
+        timer.delay = timer.delay - dt
+        if timer.delay<=0 then
+          if type(timer.f)=='string' then
+            if instance.t[timer.f] then instance.t[timer.f](instance.t) end
+          else
+            timer.f(instance.t)
+          end
+
+          instance.timers[key] = nil
+        end
+      end
+    end
+  end
 end
 
 return hoot

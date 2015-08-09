@@ -21,7 +21,7 @@ function methods:set(f, delay, options)
       end
     end
 
-  if key==nil then
+  if not key then
     repeat
       key = math.random()
     until self.timers[key]==nil

@@ -133,3 +133,5 @@ Don't forget to put this in `love.update`. Otherwise nothing will happen!
   You can change this behavior by setting `options.ifactive="nop"` which will instead leave the old timer alone and not set the new one
 
   Or you can leave `key` empty, which will always stack more timers. `options.key=false` can be used to clear the key
+
+- Setting a `delay` of `-1` will make the timer exist forever (`get` will return it), but it won't be active (`options.ifactive` won't trigger)

@@ -1,4 +1,4 @@
-#[hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handles-free Object Oriented Timer)
+##[hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handles-free Object Oriented Timer)
 A better way to deal with timer events. Intended for [LÖVE](https://love2d.org/)
 
 

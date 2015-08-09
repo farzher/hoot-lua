@@ -82,7 +82,7 @@ Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump
 ```lua
 if self.inputs.dir == self.x_normal then
   -- We're trying to leave; start counter to allow us to leave
-    if hoot(self):get('stuck_on_wall') then hoot(self):set('stuck_on_wall', 1/6, {ifexists='nop'}) end
+    if hoot(self):get('stuck_on_wall') then hoot(self):set('stuck_on_wall', 1/6, {ifactive='nop'}) end
 else
   -- Keep us stuck
     hoot(self):set('stuck_on_wall', -1)
@@ -130,6 +130,6 @@ Don't forget to put this in `love.update`. Otherwise nothing will happen!
 
   If you call `set` and the `key` already exists, the default behavior is to clear the old timer and replace it.
 
-  You can change this behavior by setting `options.ifexists="nop"` which will instead leave the old timer alone and not set the new one
+  You can change this behavior by setting `options.ifactive="nop"` which will instead leave the old timer alone and not set the new one
 
   Or you can leave `key` as `nil`, which will always stack more timers (You'll need to provide `f` as a `function` instead of `string`)

@@ -6,7 +6,7 @@ local table_import = function(t, t2)
 end
 
 local methods = {}
-function methods:set(f, frames, options)
+function methods:set(f, delay, options)
   local key
 
   -- If f is string, default key to f
@@ -16,27 +16,27 @@ function methods:set(f, frames, options)
     if options then
       if options.key~=nil then key = options.key end
 
-      if options.ifexists=='noop' then
-        if self.timers[key] and self.timers[key].frames>0 then return end
+      if options.ifexists=='nop' then
+        if self.timers[key] and self.timers[key].delay>0 then return end
       end
     end
 
-  if not frames then frames = 0 end
   if key==nil then
     repeat
       key = math.random()
     until self.timers[key]==nil
   end
-  self.timers[key] = {frames=frames, f=f}
+  self.timers[key] = {delay=delay, f=f}
+  return key
 end
 function methods:get(key) return self.timers[key] end
 function methods:clear(key) self.timers[key] = nil end
 function methods:destroy() t_timers[self.t] = nil instances[self.t] = nil end
-function methods:update()
+function methods:update(dt)
   for key, timer in pairs(self.timers) do
-    if timer.frames>0 then
-      timer.frames = timer.frames - 1
-      if timer.frames==0 then
+    if timer.delay>0 then
+      timer.delay = timer.delay - dt
+      if timer.delay<=0 then
         if type(timer.f)=='string' then
           if self.t[timer.f] then self.t[timer.f](self.t) end
         else
@@ -49,12 +49,20 @@ function methods:update()
   end
 end
 
-return function(t)
-  if instances[t] then return instances[t] end
+local hoot = {}
+setmetatable(hoot, {
+  __call = function(self, t)
+    if instances[t] then return instances[t] end
 
-  t_timers[t] = {}
-  local instance = {t=t, timers=t_timers[t]}
-  table_import(instance, methods)
-  instances[t] = instance
-  return instance
+    t_timers[t] = {}
+    local instance = {t=t, timers=t_timers[t]}
+    table_import(instance, methods)
+    instances[t] = instance
+    return instance
+  end;
+})
+function hoot.update(dt)
+  for _, instance in pairs(instances) do instance:update(dt) end
 end
+
+return hoot

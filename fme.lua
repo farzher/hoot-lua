@@ -1,4 +1,4 @@
-local t_counters={}
+local t_timers={}
 local instances={}
 
 local table_import = function(t, t2)
@@ -7,73 +7,57 @@ end
 
 local methods = {}
 function methods:set(f, frames, options)
-  local k
+  local key
 
-  -- If f is string, use default k to f
+  -- If f is string, use default key to f
     if type(f)=='string' then
-      k = f
+      key = f
     end
 
   -- options
     if options then
-      if options.k~=nil then
-        k = options.k
+      if options.key~=nil then
+        key = options.key
       end
 
       if options.ifexists=='noop' then
-        if self.counters[k] and self.counters[k].frames>0 then return end
+        if self.timers[key] and self.timers[key].frames>0 then return end
       end
     end
 
   if not frames then frames = 0 end
-  if k==nil then
+  if key==nil then
     repeat
-      k = math.random()
-    until self.counters[k]==nil
+      key = math.random()
+    until self.timers[key]==nil
   end
-  self.counters[k] = {frames=frames, f=f}
+  self.timers[key] = {frames=frames, f=f}
 end
-function methods:get(k) return self.counters[k] end
-function methods:clear(k) self.counters[k] = nil end
-function methods:destroy() t_counters[self.t] = nil instances[self.t] = nil end
+function methods:get(key) return self.timers[key] end
+function methods:clear(key) self.timers[key] = nil end
+function methods:destroy() t_timers[self.t] = nil instances[self.t] = nil end
 function methods:update()
-  for k, counter in pairs(self.counters) do
-    if counter.frames>0 then
-      counter.frames = counter.frames - 1
-      if counter.frames==0 then
-        if type(counter.f)=='string' then
-          if self.t[counter.f] then self.t[counter.f](self.t) end
+  for key, timer in pairs(self.timers) do
+    if timer.frames>0 then
+      timer.frames = timer.frames - 1
+      if timer.frames==0 then
+        if type(timer.f)=='string' then
+          if self.t[timer.f] then self.t[timer.f](self.t) end
         else
-          counter.f(self.t)
+          timer.f(self.t)
         end
 
-        self.counters[k] = nil
+        self.timers[key] = nil
       end
     end
   end
 end
 
-
-
--- local FC = {}
--- setmetatable(FC, {
---   __call = function(self, t)
---     if instances[t] then return instances[t] end
-
---     t_counters[t] = {}
---     local instance = {t=t, counters=t_counters[t]}
---     table_import(instance, methods)
---     instances[t] = instance
---     return instance
---   end;
--- })
-
--- return FC
 return function(t)
   if instances[t] then return instances[t] end
 
-  t_counters[t] = {}
-  local instance = {t=t, counters=t_counters[t]}
+  t_timers[t] = {}
+  local instance = {t=t, timers=t_timers[t]}
   table_import(instance, methods)
   instances[t] = instance
   return instance

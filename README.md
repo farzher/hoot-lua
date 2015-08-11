@@ -107,12 +107,12 @@ end
 ```
 
 
-##hoot vs [hump.Timer](http://vrld.github.io/hump/#hump.timer)
-hump is a great library, and hump.Timer is a great timer, but hoot is smarter
+##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
+hump is a great library, and hump.timer is a great timer, but hoot is smarter
 
 Let's look again at the first example
 
-Wakeup after 1 second (hump.Timer)
+Wakeup after 1 second (hump.timer)
 ```lua
 self.is_down = false
 self.wakeup_timer = nil

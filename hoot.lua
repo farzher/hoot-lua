@@ -1,4 +1,3 @@
-local t_timers={}
 local instances={}
 
 local table_import = function(t, t2)
@@ -31,15 +30,14 @@ function methods:set(f, delay, options)
 end
 function methods:get(key) return self.timers[key] end
 function methods:clear(key) self.timers[key] = nil end
-function methods:destroy() t_timers[self.t] = nil instances[self.t] = nil end
+function methods:destroy() instances[self.t] = nil end
 
 local hoot = {}
 setmetatable(hoot, {
   __call = function(self, t)
     if instances[t] then return instances[t] end
 
-    t_timers[t] = {}
-    local instance = {t=t, timers=t_timers[t]}
+    local instance = {t=t, timers={}}
     table_import(instance, methods)
     instances[t] = instance
     return instance

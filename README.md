@@ -95,6 +95,18 @@ end
 ![](https://raw.github.com/farzher/hoot-lua/master/wallstick.gif)
 
 
+Double tap right to dash
+```lua
+if right_pressed then
+  if hoot(self):get('dash_right_timer') then
+    -- TODO: Dash to the right
+  else
+    hoot(self):set('dash_right_timer', 1/10)
+  end
+end
+```
+
+
 ##Full Documentation (it's not much)
 
 ###`hoot(self):set(f, delay, options)`

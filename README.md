@@ -107,6 +107,44 @@ end
 ```
 
 
+##hoot vs [hump.Timer](http://vrld.github.io/hump/#hump.timer)
+hump is a great library, and hump.Timer is a great timer, but hoot is smarter
+
+Let's look again at the first example
+
+Wakeup after 1 second (hump.Timer)
+```lua
+self.is_down = false
+self.wakeup_timer = nil
+function Enemy:knockdown()
+  -- We have to cancel the previous wakeup_timer
+  -- Otherwise, if knockdown is called while already knocked down
+  -- the old knockdown timer will trigger halfway through the new
+  -- knockdown and wake it up!
+    if self.wakeup_timer then Timer.cancel(self.wakeup_timer) end
+
+  self.is_down = true
+  self.wakeup_timer = Timer.add(1, function() self.is_down = false end)
+end
+
+function Enemy:update()
+  if self.is_down then print('Im down!') end
+end
+```
+
+Wakeup after 1 second (hoot)
+```lua
+function Enemy:knockdown()
+  -- If a previous is_down timer is running, hoot knows about it and replaces it for us by default
+    hoot(self):set('is_down', 1)
+end
+
+function Enemy:update()
+  if hoot(self):get('is_down') then print('Im down!') end
+end
+```
+
+
 ##Full Documentation (it's not much)
 
 ###`hoot(self):set(f, delay, options)`

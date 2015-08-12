@@ -110,8 +110,6 @@ end
 ##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
 hump is a great library, and hump.timer is a great timer, but hoot is smarter
 
-Let's look again at the first example
-
 Wakeup after 1 second (hump.timer)
 ```lua
 self.is_down = false

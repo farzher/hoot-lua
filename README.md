@@ -107,6 +107,17 @@ end
 ```
 
 
+When hitting ceiling, get stuck on it for a bit instead of box2d making us instantly fall down
+```lua
+if hit_ceiling then
+  hoot(self):set(function() self.body:setGravityScale(1) end, -self.vy/1000)
+  self.body:setGravityScale(0)
+  self.vy = 0; self.body:setLinearVelocity(self.vx, self.vy)
+end
+```
+![](https://raw.github.com/farzher/hoot-lua/master/ceilingstick.gif)
+
+
 ##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
 hump is a great library, and hump.timer is a great timer, but hoot is smarter
 

@@ -1,4 +1,4 @@
-##[hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handles-free Object Oriented Timer)
+##[hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handleless Object Oriented Timer)
 A smarter way to deal with timers. Intended for [LÖVE](https://love2d.org/)
 
 
@@ -181,6 +181,11 @@ Cleanup all `hoot` memory associated with `self`
 ###`hoot.update(dt)`
 Don't forget to put this in `love.update`. Otherwise nothing will happen!
 
+###`hoot.new()`
+If you can't get away with 1 global hoot object. Use new hoot instances in your gamestates `local hoot = hoot.new()`
+
+###`hoot.destroy()`
+Destroy `hoot.new()` objects when they're no longer needed
 
 
 ##Other Tips

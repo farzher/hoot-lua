@@ -1,8 +1,7 @@
-local instances={}
-
-local table_import = function(t, t2)
+local function table_import(t, t2)
   for k, v in pairs(t2) do t[k] = v end
 end
+
 
 local methods = {}
 function methods:set(f, delay, options)
@@ -25,41 +24,55 @@ function methods:set(f, delay, options)
       key = math.random()
     until self.timers[key]==nil
   end
-  self.timers[key] = {delay=delay, f=f}
+  self.timers[key] = {delay=delay, f=f, options=options}
   return key
 end
 function methods:get(key) return self.timers[key] end
 function methods:clear(key) self.timers[key] = nil end
-function methods:destroy() instances[self.t] = nil end
+function methods:destroy() self.instances[self.t] = nil end
 
-local hoot = {}
-setmetatable(hoot, {
-  __call = function(self, t)
-    if instances[t] then return instances[t] end
 
-    local instance = {t=t, timers={}}
-    table_import(instance, methods)
-    instances[t] = instance
-    return instance
-  end;
-})
-function hoot.update(dt)
-  for _, instance in pairs(instances) do
-    for key, timer in pairs(instance.timers) do
-      if timer.delay>0 then
-        timer.delay = timer.delay - dt
-        if timer.delay<=0 then
-          if type(timer.f)=='string' then
-            if instance.t[timer.f] then instance.t[timer.f](instance.t) end
-          else
-            timer.f(instance.t)
+
+local function factory()
+  local hoot = {}
+  hoot.instances = {}
+  setmetatable(hoot, {
+    __call = function(self, t)
+      if self.instances[t] then return self.instances[t] end
+
+      local instance = {t=t, timers={}}
+      table_import(instance, methods)
+      self.instances[t] = instance
+      return instance
+    end;
+  })
+  function hoot.update(dt)
+    for _, instance in pairs(hoot.instances) do
+      for key, timer in pairs(instance.timers) do
+        if timer.delay>0 then
+          timer.delay = timer.delay - dt
+
+          if timer.options and timer.options.update then
+            timer.options.update(instance.t)
           end
 
-          instance.timers[key] = nil
+          if timer.delay<=0 then
+            if type(timer.f)=='string' then
+              if instance.t[timer.f] then instance.t[timer.f](instance.t) end
+            else
+              timer.f(instance.t)
+            end
+
+            instance.timers[key] = nil
+          end
         end
       end
     end
   end
+  function hoot.destroy() hoot.instances = {} end
+  function hoot.new() return factory() end
+
+  return hoot
 end
 
-return hoot
+return factory()

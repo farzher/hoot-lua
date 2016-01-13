@@ -4,6 +4,9 @@ end
 
 
 local methods = {}
+function methods:get(key) return self.timers[key] end
+function methods:clear(key) self.timers[key] = nil end
+function methods:destroy() self.instances[self.t] = nil end
 function methods:set(f, delay, options)
   local key
 
@@ -19,17 +22,17 @@ function methods:set(f, delay, options)
       end
     end
 
-  if not key then
-    repeat
-      key = math.random()
-    until self.timers[key]==nil
-  end
+  -- Pick a unqiue random key
+    if not key then
+      repeat
+        key = math.random()
+      until self.timers[key]==nil
+    end
+
   self.timers[key] = {delay=delay, f=f, options=options}
+
   return key
 end
-function methods:get(key) return self.timers[key] end
-function methods:clear(key) self.timers[key] = nil end
-function methods:destroy() self.instances[self.t] = nil end
 
 
 

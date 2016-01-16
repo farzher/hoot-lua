@@ -6,7 +6,7 @@ A smarter way to deal with timers. Intended for [LÖVE](https://love2d.org/)
 
 To cleanup this type of code
 ```lua
-self.fire_cooldown = 1
+self.fire_cooldown = 0
 
 function Player:update(dt)
   self.fire_cooldown = self.fire_cooldown - dt

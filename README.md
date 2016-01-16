@@ -50,6 +50,8 @@ hoot(self):set('destroy', 5)
 
 
 When hit, toggle being flipped on our side. If flipped for 2 seconds, automatically jump back up
+
+![](https://raw.github.com/farzher/hoot-lua/master/wakeup.gif)
 ```lua
 function Creep:hit()
   self.is_flipped = not self.is_flipped
@@ -65,10 +67,11 @@ function Creep:hit()
     self.body:setLinearVelocity(self.vx, self.vy)
 end
 ```
-![](https://raw.github.com/farzher/hoot-lua/master/wakeup.gif)
 
 
 Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump away instead of fall off
+
+![](https://raw.github.com/farzher/hoot-lua/master/wallstick.gif)
 ```lua
 if self.inputs.dir == self.x_normal then
   -- We're trying to leave; start timer to allow us to leave
@@ -82,7 +85,6 @@ if not hoot(self):get('stuck_on_wall') then
   -- TODO: Accept inputs to move off the wall
 end
 ```
-![](https://raw.github.com/farzher/hoot-lua/master/wallstick.gif)
 
 
 Double tap right to dash
@@ -97,6 +99,8 @@ end
 
 
 When hitting ceiling, get stuck on it for a bit instead of box2d making us instantly fall down
+
+![](https://raw.github.com/farzher/hoot-lua/master/ceilingstick.gif)
 ```lua
 if hit_ceiling then
   hoot(self):set(function() self.body:setGravityScale(1) end, -self.vy/1000)
@@ -104,7 +108,6 @@ if hit_ceiling then
   self.vy = 0; self.body:setLinearVelocity(self.vx, self.vy)
 end
 ```
-![](https://raw.github.com/farzher/hoot-lua/master/ceilingstick.gif)
 
 
 ##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)

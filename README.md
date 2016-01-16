@@ -6,34 +6,24 @@ A smarter way to deal with timers. Intended for [LÖVE](https://love2d.org/)
 
 To cleanup this type of code
 ```lua
-self.wakeup_timer = 0
-self.is_down = false
+self.fire_cooldown = 1
 
-function Enemy:knockdown()
-  self.is_down = true
-  self.wakeup_timer = 1
-end
+function Player:update(dt)
+  self.fire_cooldown = self.fire_cooldown - dt
 
-function Enemy:update(dt)
-  if self.is_down then
-    self.wakeup_timer = self.wakeup_timer - dt
-    if self.wakeup_timer <= 0 then
-      self.is_down = false
-    end
+  if fire_pressed and self.fire_cooldown <= 0 then
+    self.fire_cooldown = 1
+    self:fire()
   end
-
-  if self.is_down then print('Im down!') end
 end
 ```
 
 And replace it with this type of code
 ```lua
-function Enemy:knockdown()
-  hoot(self):set('is_down', 1)
-end
-
-function Enemy:update()
-  if hoot(self):get('is_down') then print('Im down!') end
+function Player:update()
+  if fire_pressed and hoot(self):set('fire_cooldown', 1, {ifactive='nop'}) then
+    self:fire()
+  end
 end
 ```
 
@@ -50,7 +40,7 @@ function love.update(dt) hoot.update(dt) end
 ##Usage Examples
 
 
-Set the lifespan of this object to 5 seconds
+If the timer's key exists on the object as a function, it'll be called when the timer expires
 ```lua
 function Bullet:destroy()
   -- TODO: Remove object from game
@@ -98,10 +88,9 @@ end
 Double tap right to dash
 ```lua
 if right_pressed then
-  if hoot(self):get('dash_right_timer') then
+  if not hoot(self):set('dash_right_timer', 1/10, {ifactive='nop'}) then
+    -- We were unable to set the dash_right_timer because it already existed!
     -- TODO: Dash to the right
-  else
-    hoot(self):set('dash_right_timer', 1/10)
   end
 end
 ```

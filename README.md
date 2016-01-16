@@ -113,7 +113,7 @@ end
 ##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
 hump is a great library, and hump.timer is a great timer, but hoot is smarter
 
-Wakeup after 1 second (hump.timer)
+Wakeup after 1 second **(hump.timer)**
 ```lua
 self.is_down = false
 self.wakeup_timer = nil
@@ -133,7 +133,7 @@ function Enemy:update()
 end
 ```
 
-Wakeup after 1 second (hoot)
+Wakeup after 1 second **(hoot)**
 ```lua
 function Enemy:knockdown()
   -- If a previous is_down timer is running, hoot knows about it and replaces it for us by default

@@ -21,7 +21,8 @@ end
 And replace it with this type of code
 ```lua
 function Player:update()
-  if fire_pressed and hoot(self):set('fire_cooldown', 1, {ifactive='nop'}) then
+  if fire_pressed and hoot(self):set('fire_cooldown', 1, {onlyif:'notexists'}) then
+    -- We were able to set a new cooldown timer!
     self:fire()
   end
 end
@@ -29,7 +30,7 @@ end
 
 
 
-##Installation
+##Installation - *Don't forget to call hoot.update(dt)*
 ```lua
 hoot = require 'hoot'
 
@@ -75,7 +76,7 @@ Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump
 ```lua
 if self.inputs.dir == self.x_normal then
   -- We're trying to leave; start timer to allow us to leave
-    if hoot(self):get('stuck_on_wall') then hoot(self):set('stuck_on_wall', 1/6, {ifactive='nop'}) end
+    hoot(self):set('stuck_on_wall', 1/6, {onlyif:'notactive'})
 else
   -- Keep us stuck
     hoot(self):set('stuck_on_wall', -1)
@@ -90,7 +91,7 @@ end
 Double tap right to dash
 ```lua
 if right_pressed then
-  if not hoot(self):set('dash_right_timer', 1/10, {ifactive='nop'}) then
+  if not hoot(self):set('dash_right_timer', 1/10, {onlyif:'notexists'}) then
     -- We were unable to set the dash_right_timer because it already existed!
     -- TODO: Dash to the right
   end
@@ -156,6 +157,8 @@ Set a new timer that will trigger after `delay` seconds.
 
 You can also set `f` to a string that doesn't exist as a function, to use the timer as a boolean variable like in the wall jump example. `stuck_on_wall` isn't a function
 
+`options.onlyif` only set the timer if it currently: `'exists'` `'notexists'` `'active'` `'notactive'`
+
 
 
 ###`hoot(self):get(key)`
@@ -167,16 +170,25 @@ Timer info looks like this `{delay=0.8, f='mycallback'}`. `delay` is the seconds
 ###`hoot(self):clear(key)`
 Clear the timer. It'll never trigger
 
-###`hoot(self):destroy()`
+######`hoot(self):destroy()`
 Cleanup all `hoot` memory associated with `self`
 
 ###`hoot.update(dt)`
 Don't forget to put this in `love.update`. Otherwise nothing will happen!
 
-###`hoot.new()`
+######`hoot.set`
+Shortcut for `hoot(hoot):set`
+
+######`hoot.get`
+Shortcut for `hoot(hoot):get`
+
+######`hoot.clear`
+Shortcut for `hoot(hoot):clear`
+
+######`hoot.new()`
 If you can't get away with 1 global hoot object. Use new hoot instances in your gamestates `local hoot = hoot.new()`
 
-###`hoot.destroy()`
+######`hoot.destroy()`
 Destroy `hoot.new()` objects when they're no longer needed
 
 
@@ -186,8 +198,8 @@ Destroy `hoot.new()` objects when they're no longer needed
 
   If you call `set` and the `key` already exists, the default behavior is to clear the old timer and replace it.
 
-  You can change this behavior by setting `options.ifactive="nop"` which will instead leave the old timer alone and not set the new one
+  You can change this behavior by setting `options.onlyif="notexists"` which will instead leave the old timer alone and not set the new one
 
   Or you can leave `key` empty, which will always stack more timers. `options.key=false` can be used to clear the key
 
-- Setting a `delay` of `-1` will make the timer exist forever (`get` will return it), but it won't be active (`options.ifactive` won't trigger)
+- Setting a `delay` of `-1` will make the timer exist forever (`get` will return it), but it won't be active (`options.onlyif='active'` won't trigger)

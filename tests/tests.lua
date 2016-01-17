@@ -98,7 +98,7 @@ function test()
   hoot(tmp_entity):set('func', 1, {key='b'})
 
   hoot(entity):set('clear', 1)
-  hoot(entity):set('noclear', 1, {noclear=true})
+  -- hoot(entity):set('noclear', 1, {noclear=true})
 
   local key = hoot.set('a', 555)
   NOT_NIL(hoot.get(key))
@@ -133,13 +133,13 @@ function test()
   --   end
   --   function Entity:trigger() counter=counter+1 end
   --   local entities = {}
-  --   for i=1, 1000 do
+  --   for i=1, 10000 do
   --     local entity = setmetatable({}, Entity)
   --     entity:init()
   --     table.insert(entities, entity)
   --   end
   --   for i=1, 1000 do
-  --     for _, entity in pairs(entities) do
+  --     for i=1, #entities do local entity = entities[i]
   --       entity:update(1)
   --     end
   --   end
@@ -155,7 +155,7 @@ function test()
   --   function Entity:init() self.hoot=tmp_hoot(self) self:trigger() end
   --   function Entity:trigger() counter=counter+1 self.hoot:set('trigger', 60) end
   --   local entities = {}
-  --   for i=1, 1000 do
+  --   for i=1, 10000 do
   --     local entity = setmetatable({}, Entity)
   --     entity:init()
   --     table.insert(entities, entity)
@@ -174,7 +174,7 @@ function test()
   --   function Entity:init() self:trigger() end
   --   function Entity:trigger() counter=counter+1 Timer.add(60, function() self:trigger() end) end
   --   local entities = {}
-  --   for i=1, 1000 do
+  --   for i=1, 10000 do
   --     local entity = setmetatable({}, Entity)
   --     entity:init()
   --     table.insert(entities, entity)
@@ -216,7 +216,7 @@ function test()
     end
   end
 
-  -- NIL(hoot(entity):get('clear'))
+  NIL(hoot(entity):get('clear'))
   -- NOT_NIL(hoot(entity):get('noclear'))
 
 

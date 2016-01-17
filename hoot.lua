@@ -80,25 +80,18 @@ local function factory()
     -- We can't handle finished timers during the loop because of user `f` code messing with timer keys before current timers are cleared
       local finished_list
 
-    for timer in pairs(timer_set) do
-      if timer.delay>0 then
+    -- Loop all existing timers
+      for timer in pairs(timer_set) do
         timer.delay = timer.delay - dt
-
-        local options = timer.options
-
-        -- options.update
-          if options and options.update then options.update(timer.wrapped.original) end
 
         -- Timer is finished!
           if timer.delay<=0 then
             if not finished_list then finished_list = {} end
             finished_list[#finished_list+1] = timer
 
-            -- options.noclear
-              if not (options and options.noclear) then timer.wrapped:clear(timer.key) end
+            timer.wrapped:clear(timer.key)
           end
       end
-    end
 
     if finished_list then
       for i=1, #finished_list do local timer = finished_list[i]

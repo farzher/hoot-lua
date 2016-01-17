@@ -118,7 +118,7 @@ function test()
 
 
 
-  -- -- Normal timer counters 390-225ms
+  -- -- Normal timer counters
   --   local counter = 0
   --   local Entity = {}
   --   function Entity:__index(key) return Entity[key] end
@@ -139,7 +139,7 @@ function test()
   --     table.insert(entities, entity)
   --   end
   --   for i=1, 1000 do
-  --     for i=1, #entities do local entity = entities[i]
+  --     for _, entity in pairs(entities) do
   --       entity:update(1)
   --     end
   --   end
@@ -147,7 +147,7 @@ function test()
 
 
 
-  -- -- Hoot 400-225ms
+  -- -- Hoot
   --   local tmp_hoot = hoot.new()
   --   local counter = 0
   --   local Entity = {}
@@ -166,6 +166,23 @@ function test()
   --   print(counter)
 
 
+  -- -- Hump
+  --   local Timer = require 'timer'
+  --   local counter = 0
+  --   local Entity = {}
+  --   function Entity:__index(key) return Entity[key] end
+  --   function Entity:init() self:trigger() end
+  --   function Entity:trigger() counter=counter+1 Timer.add(60, function() self:trigger() end) end
+  --   local entities = {}
+  --   for i=1, 1000 do
+  --     local entity = setmetatable({}, Entity)
+  --     entity:init()
+  --     table.insert(entities, entity)
+  --   end
+  --   for i=1, 1000 do
+  --     Timer.update(1)
+  --   end
+  --   print(counter)
 
 
 
@@ -199,8 +216,8 @@ function test()
     end
   end
 
-  NIL(hoot(entity):get('clear'))
-  NOT_NIL(hoot(entity):get('noclear'))
+  -- NIL(hoot(entity):get('clear'))
+  -- NOT_NIL(hoot(entity):get('noclear'))
 
 
   EQUALS(async_count, 0)

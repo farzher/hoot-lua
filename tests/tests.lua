@@ -139,6 +139,7 @@ function test()
   --     table.insert(entities, entity)
   --   end
   --   for i=1, 1000 do
+  --     -- for _, entity in pairs(entities) do
   --     for i=1, #entities do local entity = entities[i]
   --       entity:update(1)
   --     end
@@ -152,8 +153,20 @@ function test()
   --   local counter = 0
   --   local Entity = {}
   --   function Entity:__index(key) return Entity[key] end
-  --   function Entity:init() self.hoot=tmp_hoot(self) self:trigger() end
-  --   function Entity:trigger() counter=counter+1 self.hoot:set('trigger', 60) end
+  --   function Entity:init()
+  --     self.hoot=tmp_hoot(self) self:trigger()
+  --     self.hoot = tmp_hoot(self)
+  --   end
+  --   function Entity:trigger()
+  --     counter=counter+1
+  --     self.hoot:set('trigger', 60)
+  --   end
+  --   local options = {onlyif='notexists'}
+  --   function Entity:update()
+  --     if self.hoot:set('cooldown', 60, options) then
+  --       self:trigger()
+  --     end
+  --   end
   --   local entities = {}
   --   for i=1, 10000 do
   --     local entity = setmetatable({}, Entity)
@@ -162,6 +175,9 @@ function test()
   --   end
   --   for i=1, 1000 do
   --     tmp_hoot.update(1)
+  --     for i=1, #entities do local entity = entities[i]
+  --       entity:update(1)
+  --     end
   --   end
   --   print(counter)
 

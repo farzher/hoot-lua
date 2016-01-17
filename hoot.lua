@@ -35,19 +35,19 @@ local function factory()
       -- options
         if options then
 
-          -- options.onlyif
-            if options.onlyif=='exists' then
-              if not self.timers[key] then return end
-            elseif options.onlyif=='notexists' then
-              if self.timers[key] then return end
-            elseif options.onlyif=='active' then
-              if not (self.timers[key] and self.timers[key].delay>0) then return end
-            elseif options.onlyif=='notactive' then
-              if self.timers[key] and self.timers[key].delay>0 then return end
-            end
-
           -- options.key
             if options.key~=nil then key = options.key end
+
+          -- options.onlyif
+            if options.onlyif=='notexists' then
+              if self.timers[key] then return end
+            elseif options.onlyif=='notactive' then
+              if self.timers[key] and self.timers[key].delay>0 then return end
+            elseif options.onlyif=='exists' then
+              if not self.timers[key] then return end
+            elseif options.onlyif=='active' then
+              if not (self.timers[key] and self.timers[key].delay>0) then return end
+            end
         end
 
       -- If no key, pick a unqiue random key
@@ -113,10 +113,8 @@ local function factory()
   function hoot.new() return factory() end
 
   hoot = setmetatable(hoot, hoot)
-
   -- Used to init fresh variables (destroy is more of a "reset")
     hoot.destroy()
-
   return hoot
 end
 

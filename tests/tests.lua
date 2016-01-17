@@ -106,10 +106,13 @@ function test()
   hoot(hoot):clear(key)
   NIL(hoot.get(key))
 
-  function try_dash(ms)
-    return not hoot(entity):set('dash_right_timer', ms, {onlyif='notexists'})
-  end
-
+  -- This should keep calling itself
+    async_called(60*1000/100 + 1)
+    local function reset()
+      async_count=async_count-1
+      hoot.set(reset, 100, {key='reset'})
+    end
+    reset()
 
 
 
@@ -170,7 +173,9 @@ function test()
 
 
 
-
+  function try_dash(ms)
+    return not hoot(entity):set('dash_right_timer', ms, {onlyif='notexists'})
+  end
 
   local dt = 1
   while totalms<1000*60 do

@@ -21,7 +21,7 @@ end
 And replace it with this type of code
 ```lua
 function Player:update()
-  if fire_pressed and hoot(self):set('fire_cooldown', 1, {onlyif:'notexists'}) then
+  if fire_pressed and hoot(self):set('fire_cooldown', 1, {onlyif='notexists'}) then
     -- We were able to set a new cooldown timer!
     self:fire()
   end
@@ -76,7 +76,7 @@ Get stuck on walls for a bit, so we don't need frame perfect timing to wall jump
 ```lua
 if self.inputs.dir == self.x_normal then
   -- We're trying to leave; start timer to allow us to leave
-    hoot(self):set('stuck_on_wall', 1/6, {onlyif:'notactive'})
+    hoot(self):set('stuck_on_wall', 1/6, {onlyif='notactive'})
 else
   -- Keep us stuck
     hoot(self):set('stuck_on_wall', -1)
@@ -91,7 +91,7 @@ end
 Double tap right to dash
 ```lua
 if right_pressed then
-  if not hoot(self):set('dash_right_timer', 1/10, {onlyif:'notexists'}) then
+  if not hoot(self):set('dash_right_timer', 1/10, {onlyif='notexists'}) then
     -- We were unable to set the dash_right_timer because it already existed!
     -- TODO: Dash to the right
   end

@@ -1,8 +1,8 @@
-##[hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handleless Object Oriented Timer)
+## [hoot.lua](https://raw.github.com/farzher/hoot-lua/master/hoot.lua) (Handleless Object Oriented Timer)
 A smarter way to deal with timers. Intended for [LÖVE](https://love2d.org/)
 
 
-##What? Why?
+## What? Why?
 
 To cleanup this type of code
 ```lua
@@ -30,7 +30,7 @@ end
 
 
 
-##Installation - *Don't forget to call hoot.update(dt)*
+## Installation - *Don't forget to call hoot.update(dt)*
 ```lua
 hoot = require 'hoot'
 
@@ -38,7 +38,7 @@ function love.update(dt) hoot.update(dt) end
 ```
 
 
-##Usage Examples
+## Usage Examples
 
 
 If the timer's key exists on the object as a function, it'll be called when the timer expires
@@ -111,7 +111,7 @@ end
 ```
 
 
-##hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
+## hoot vs [hump.timer](http://vrld.github.io/hump/# hump.timer)
 hump is a great library, and hump.timer is a great timer, but hoot is smarter
 
 Wakeup after 1 second **(hump.timer)**
@@ -147,9 +147,9 @@ end
 ```
 
 
-##Full Documentation (it's not much)
+## Full Documentation (it's not much)
 
-###`hoot(self):set(f, delay, options)`
+### `hoot(self):set(f, delay, options)`
 
 Set a new timer that will trigger after `delay` seconds.
 
@@ -161,38 +161,38 @@ You can also set `f` to a string that doesn't exist as a function, to use the ti
 
 
 
-###`hoot(self):get(key)`
+### `hoot(self):get(key)`
 Returns timer info if currently exists, else `nil`
 
 Timer info looks like this `{delay=0.8, f='mycallback'}`. `delay` is the seconds left until it triggers
 
 
-###`hoot(self):clear(key)`
+### `hoot(self):clear(key)`
 Clear the timer. It'll never trigger
 
-######`hoot(self):destroy()`
+###### `hoot(self):destroy()`
 Cleanup all `hoot` memory associated with `self`
 
-###`hoot.update(dt)`
+### `hoot.update(dt)`
 Don't forget to put this in `love.update`. Otherwise nothing will happen!
 
-######`hoot.set`
+###### `hoot.set`
 Shortcut for `hoot(hoot):set`
 
-######`hoot.get`
+###### `hoot.get`
 Shortcut for `hoot(hoot):get`
 
-######`hoot.clear`
+###### `hoot.clear`
 Shortcut for `hoot(hoot):clear`
 
-######`hoot.new()`
+###### `hoot.new()`
 If you can't get away with 1 global hoot object. Use new hoot instances in your gamestates `local hoot = hoot.new()`
 
-######`hoot.destroy()`
+###### `hoot.destroy()`
 Destroy `hoot.new()` objects when they're no longer needed
 
 
-##Other Tips
+## Other Tips
 - `hoot` does not store anything on your table, it's left completely untouched.
 - Each timer has a `key`, which is set to `f` if it's a string, or `options.key`
 

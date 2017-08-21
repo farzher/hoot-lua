@@ -111,7 +111,7 @@ end
 ```
 
 
-## hoot vs [hump.timer](http://vrld.github.io/hump/# hump.timer)
+## hoot vs [hump.timer](http://vrld.github.io/hump/#hump.timer)
 hump is a great library, and hump.timer is a great timer, but hoot is smarter
 
 Wakeup after 1 second **(hump.timer)**
